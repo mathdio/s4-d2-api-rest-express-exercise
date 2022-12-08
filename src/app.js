@@ -52,7 +52,10 @@ app.get('/movies', async (req, res) => {
 
 // 🚀 Exercício 7
 // Crie um endpoint do tipo POST com a rota /movies, para cadastrar um novo filme no JSON.
-
+// {
+//   "movie": "Vingadores",
+//   "price": 5
+// }
 
 
 app.post('/movies', async (req, res) => {
@@ -74,6 +77,10 @@ app.post('/movies', async (req, res) => {
 
 // 🚀 Exercício 8
 // Crie um endpoint do tipo PUT com a rota /movies/:id, que possa editar informações de um filme do JSON.
+// {
+//   "movie": "Vingadores: Ultimato",
+//   "price": 5
+// }
 
 app.put('/movies/:id', async (req, res) => {
   try {
@@ -103,6 +110,10 @@ app.delete('/movies/:id', async (req, res) => {
     const index = movies.findIndex((movie) => movie.id === Number(id));
 
     movies.splice(index, 1);
+    const updatedMovies = JSON.stringify(movies, null, 2);
+    await fs.writeFile(moviesPath, updatedMovies);
+
+    res.status(200).json(movies);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
